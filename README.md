@@ -1,6 +1,8 @@
 # regex-aligner
 
-Align text using regular expressions or align multiple cursors. Enter a pattern and text is aligned at matching positions.
+Align text using regular expressions or multiple cursors.
+
+Enter a pattern and text is aligned at matching positions.
 
 ## Features
 

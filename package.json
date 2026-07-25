@@ -1,7 +1,7 @@
 {
   "name": "regex-aligner",
   "author": "lumine-code",
-  "description": "Align text using regular expressions or align multiple cursors",
+  "description": "Align text using regular expressions or multiple cursors.",
   "repository": "https://github.com/lumine-code/regex-aligner",
   "bugs": {
     "url": "https://github.com/lumine-code/regex-aligner/issues"
