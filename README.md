@@ -4,12 +4,12 @@ Align text using regular expressions or align multiple cursors. Enter a pattern 
 
 ## Features
 
-- **Regex alignment**: Align text at regex-matched separators.
-- **Cursor alignment**: Align multiple cursors to the rightmost one.
+- **Regex alignment**: align text at regex-matched separators.
+- **Cursor alignment**: align multiple cursors to the rightmost one.
 
 ## Installation
 
-To install `regex-aligner` search for [regex-aligner](https://web.pulsar-edit.dev/packages/regex-aligner) in the Install pane of the Pulsar settings or run `ppm install regex-aligner`. Alternatively, you can run `ppm install asiloisad/pulsar-regex-aligner` to install a package directly from the GitHub repository.
+To install `regex-aligner` search for _regex-aligner_ in the Install pane of the Lumine settings or run `lumine --install lumine-code/regex-aligner`.
 
 ## Commands
 
