@@ -7,9 +7,11 @@
     "url": "https://github.com/lumine-code/regex-aligner/issues"
   },
   "keywords": [
-    "regex",
-    "aligner",
-    "tabularize"
+    "tabularize",
+    "column",
+    "spacing",
+    "multi-cursor",
+    "indent"
   ],
   "version": "1.0.0",
   "license": "MIT",
