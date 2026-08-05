@@ -22,6 +22,12 @@
     "You can align the selected lines on a pattern with {{ 'regex-aligner:toggle' | keystroke }}"
   ],
   "main": "./lib/main",
+  "files": [
+    "keymaps",
+    "lib",
+    "menus",
+    "spec"
+  ],
   "scripts": {
     "test": "lumine --test spec",
     "lint": "eslint . --max-warnings 0",
