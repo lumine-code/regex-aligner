@@ -15,7 +15,7 @@ To install `regex-aligner` search for _regex-aligner_ in the Install pane of the
 
 ## Commands
 
-Commands available in `atom-text-editor:not([mini])`:
+Commands available in `atom-workspace`:
 
 - `regex-aligner:toggle`: open dialog to get a regex expression as separator,
 - `regex-aligner:simple`: align multiple cursors to the rightmost one.
