@@ -2,14 +2,14 @@ describe("regex-aligner", () => {
   let workspaceElement, editor, editorElement, mainModule;
 
   beforeEach(async () => {
-    workspaceElement = atom.views.getView(atom.workspace);
+    workspaceElement = lumine.views.getView(lumine.workspace);
     jasmine.attachToDOM(workspaceElement);
-    editor = await atom.workspace.open();
-    editorElement = atom.views.getView(editor);
+    editor = await lumine.workspace.open();
+    editorElement = lumine.views.getView(editor);
 
     // The package defers activation until one of its commands is dispatched.
-    const activation = atom.packages.activatePackage("regex-aligner");
-    atom.commands.dispatch(editorElement, "regex-aligner:simple");
+    const activation = lumine.packages.activatePackage("regex-aligner");
+    lumine.commands.dispatch(editorElement, "regex-aligner:simple");
     mainModule = (await activation).mainModule;
   });
 
@@ -20,7 +20,7 @@ describe("regex-aligner", () => {
       editor.addCursorAtBufferPosition([1, 4]);
       editor.addCursorAtBufferPosition([2, 3]);
 
-      atom.commands.dispatch(editorElement, "regex-aligner:simple");
+      lumine.commands.dispatch(editorElement, "regex-aligner:simple");
 
       expect(editor.getText()).toBe("a   = 1\nbbb = 2\ncc  = 3\n");
       for (const cursor of editor.getCursors()) {
@@ -35,10 +35,10 @@ describe("regex-aligner", () => {
     }
 
     it("shows and hides the regex dialog", () => {
-      atom.commands.dispatch(editorElement, "regex-aligner:toggle");
+      lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
       expect(getDialog().isVisible()).toBe(true);
 
-      atom.commands.dispatch(editorElement, "regex-aligner:toggle");
+      lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
       expect(getDialog().isVisible()).toBe(false);
     });
 
@@ -49,10 +49,10 @@ describe("regex-aligner", () => {
         [1, 8],
       ]);
 
-      atom.commands.dispatch(editorElement, "regex-aligner:toggle");
+      lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
       const dialog = getDialog();
       dialog.miniEditor.setText(",");
-      atom.commands.dispatch(dialog.miniEditor.element, "core:confirm");
+      lumine.commands.dispatch(dialog.miniEditor.element, "core:confirm");
 
       expect(editor.getText()).toBe("a   , bb , c\nddd , e  , ff\n");
       expect(dialog.isVisible()).toBe(false);
@@ -65,10 +65,10 @@ describe("regex-aligner", () => {
         [0, 3],
       ]);
 
-      atom.commands.dispatch(editorElement, "regex-aligner:toggle");
+      lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
       const dialog = getDialog();
       dialog.miniEditor.setText("([");
-      atom.commands.dispatch(dialog.miniEditor.element, "core:confirm");
+      lumine.commands.dispatch(dialog.miniEditor.element, "core:confirm");
 
       expect(dialog.isVisible()).toBe(true);
       expect(dialog.errorMessage.textContent).toContain("Error:");

@@ -3,7 +3,7 @@
   // editor-scoped binding sits on a deeper element than a workspace-scoped one,
   // so it would have taken alt-r whenever an editor had focus — which is most
   // of the time.
-  "atom-text-editor:not([mini])": {
+  "lumine-text-editor:not([mini])": {
     "cmdorctrl-alt-r": "regex-aligner:toggle"
   }
 }

@@ -35,7 +35,7 @@
     "format:check": "prettier --check ."
   },
   "activationCommands": {
-    "atom-text-editor:not([mini])": [
+    "lumine-text-editor:not([mini])": [
       "regex-aligner:toggle",
       "regex-aligner:simple"
     ]
