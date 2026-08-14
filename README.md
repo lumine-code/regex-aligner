@@ -11,7 +11,7 @@ Enter a pattern and text is aligned at matching positions.
 
 ## Installation
 
-To install `regex-aligner` search for _regex-aligner_ in the Install pane of the Lumine settings or run `lumine --install lumine-code/regex-aligner`.
+To install `regex-aligner` search for it in the Install pane of the Lumine settings, or run the command `lumine --install lumine-code/regex-aligner`.
 
 ## Commands
 
