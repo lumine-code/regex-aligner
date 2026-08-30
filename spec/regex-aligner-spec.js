@@ -42,6 +42,37 @@ describe("regex-aligner", () => {
       expect(getDialog().isVisible()).toBe(false);
     });
 
+    it("opens and restores the dialog in the owning detached surface", async () => {
+      lumine.initializeDetachedPaneSurfaces({ force: true });
+      let detachedPane = null;
+
+      try {
+        detachedPane = await lumine.workspace.detachPaneItem(editor, { show: false });
+        const surface = lumine.workspace.getWindowSurface(editor);
+        editorElement.focus();
+        lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
+        const dialog = getDialog();
+
+        expect(lumine.workspace.getActiveWindowSurface()).toBe(surface);
+        expect(lumine.workspace.getActiveTextEditor()).toBe(editor);
+        expect(dialog.element.ownerDocument).toBe(surface.document);
+        expect(dialog.panel.surface).toBe(surface);
+        expect(dialog.miniEditor.element.ownerDocument).toBe(surface.document);
+
+        lumine.commands.dispatch(dialog.element, "core:cancel");
+        expect(surface.document.activeElement).toBe(editorElement);
+
+        await lumine.workspace.attachDetachedPane(detachedPane);
+        detachedPane = null;
+        lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
+        expect(dialog.element.ownerDocument).toBe(document);
+      } finally {
+        if (getDialog()?.isVisible()) lumine.commands.dispatch(getDialog().element, "core:cancel");
+        if (detachedPane?.isAlive?.()) await lumine.workspace.attachDetachedPane(detachedPane);
+        lumine.initializeDetachedPaneSurfaces();
+      }
+    });
+
     it("tabularizes the selection at the regex separator", () => {
       editor.setText("a,bb,c\nddd,e,ff\n");
       editor.setSelectedBufferRange([
