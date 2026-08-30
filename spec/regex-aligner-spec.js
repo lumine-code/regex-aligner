@@ -42,30 +42,35 @@ describe("regex-aligner", () => {
       expect(getDialog().isVisible()).toBe(false);
     });
 
-    it("opens and restores the dialog in the owning detached surface", async () => {
+    it("opens the primary dialog while keeping the detached editor as its target", async () => {
       lumine.initializeDetachedPaneSurfaces({ force: true });
       let detachedPane = null;
 
       try {
+        editor.setText("a,bb,c\nddd,e,ff\n");
+        editor.setSelectedBufferRange([
+          [0, 0],
+          [1, 8],
+        ]);
         detachedPane = await lumine.workspace.detachPaneItem(editor, { show: false });
-        const surface = lumine.workspace.getWindowSurface(editor);
+        const detachedSurface = lumine.workspace.getWindowSurface(editor);
+        const primarySurface = lumine.workspace.getPrimaryWindowSurface();
         editorElement.focus();
         lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
         const dialog = getDialog();
 
-        expect(lumine.workspace.getActiveWindowSurface()).toBe(surface);
-        expect(lumine.workspace.getActiveTextEditor()).toBe(editor);
-        expect(dialog.element.ownerDocument).toBe(surface.document);
-        expect(dialog.panel.surface).toBe(surface);
-        expect(dialog.miniEditor.element.ownerDocument).toBe(surface.document);
+        expect(detachedSurface.document.activeElement).toBe(editorElement);
+        expect(lumine.workspace.getActiveWindowSurface()).toBe(primarySurface);
+        expect(dialog.editor).toBe(editor);
+        expect(dialog.element.ownerDocument).toBe(primarySurface.document);
+        expect(dialog.miniEditor.element.ownerDocument).toBe(primarySurface.document);
+        expect(dialog.miniEditor.element.contains(primarySurface.document.activeElement)).toBe(
+          true,
+        );
 
-        lumine.commands.dispatch(dialog.element, "core:cancel");
-        expect(surface.document.activeElement).toBe(editorElement);
-
-        await lumine.workspace.attachDetachedPane(detachedPane);
-        detachedPane = null;
-        lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
-        expect(dialog.element.ownerDocument).toBe(document);
+        dialog.miniEditor.setText(",");
+        lumine.commands.dispatch(dialog.miniEditor.element, "core:confirm");
+        expect(editor.getText()).toBe("a   , bb , c\nddd , e  , ff\n");
       } finally {
         if (getDialog()?.isVisible()) lumine.commands.dispatch(getDialog().element, "core:cancel");
         if (detachedPane?.isAlive?.()) await lumine.workspace.attachDetachedPane(detachedPane);
