@@ -34,12 +34,6 @@
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
-  "activationCommands": {
-    "lumine-text-editor:not([mini])": [
-      "regex-aligner:toggle",
-      "regex-aligner:simple"
-    ]
-  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.9.1",
