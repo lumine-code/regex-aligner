@@ -6,6 +6,7 @@ describe("regex-aligner", () => {
     jasmine.attachToDOM(workspaceElement);
     editor = await lumine.workspace.open();
     editorElement = lumine.views.getView(editor);
+    await lumine.packages.activatePackage("language-text");
 
     // The package defers activation until one of its commands is dispatched.
     const activation = lumine.packages.activatePackage("regex-aligner");
@@ -37,6 +38,7 @@ describe("regex-aligner", () => {
     it("shows and hides the regex dialog", () => {
       lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
       expect(getDialog().isVisible()).toBe(true);
+      expect(getDialog().miniEditor.getGrammar().scopeName).toBe("text.plain");
 
       lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
       expect(getDialog().isVisible()).toBe(false);
