@@ -75,5 +75,66 @@ describe("regex-aligner", () => {
       expect(dialog.isVisible()).toBe(true);
       expect(dialog.errorMessage.textContent).toContain("Error:");
     });
+
+    it("does not duplicate separator capture groups", () => {
+      editor.setText("a,bb,c\nddd,e,ff\n");
+      editor.setSelectedBufferRange([
+        [0, 0],
+        [1, 8],
+      ]);
+
+      lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
+      const dialog = getDialog();
+      dialog.miniEditor.setText("(,)");
+      lumine.commands.dispatch(dialog.miniEditor.element, "core:confirm");
+
+      expect(editor.getText()).toBe("a   , bb , c\nddd , e  , ff\n");
+    });
+
+    it("keeps empty columns and their separators", () => {
+      editor.setText(",a,,b\n,c,,d\n");
+      editor.setSelectedBufferRange([
+        [0, 0],
+        [1, 5],
+      ]);
+
+      lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
+      const dialog = getDialog();
+      dialog.miniEditor.setText(",");
+      lumine.commands.dispatch(dialog.miniEditor.element, "core:confirm");
+
+      expect(editor.getText()).toBe(" , a ,  , b\n , c ,  , d\n");
+    });
+
+    it("does not add columns to lines with fewer separators", () => {
+      editor.setText("a,b,c\nd,e\n");
+      editor.setSelectedBufferRange([
+        [0, 0],
+        [1, 3],
+      ]);
+
+      lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
+      const dialog = getDialog();
+      dialog.miniEditor.setText("(,)|(=)");
+      lumine.commands.dispatch(dialog.miniEditor.element, "core:confirm");
+
+      expect(editor.getText()).toBe("a , b , c\nd , e\n");
+    });
+
+    it("aligns zero-width separators without losing the adjacent text", () => {
+      editor.setText("a,bb\nddd,e\n");
+      editor.setSelectedBufferRange([
+        [0, 0],
+        [1, 5],
+      ]);
+
+      lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
+      const dialog = getDialog();
+      dialog.miniEditor.setText("^|(?=,)|$");
+      lumine.commands.dispatch(dialog.miniEditor.element, "core:confirm");
+
+      expect(editor.getText()).toBe("a   ,bb\nddd ,e\n");
+      expect(dialog.isVisible()).toBe(false);
+    });
   });
 });
