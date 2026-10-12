@@ -14,7 +14,7 @@ describe("Regex Aligner command editor targets", () => {
     await lumine.packages.activatePackage("language-text");
     first = await lumine.workspace.open();
     firstPane = lumine.workspace.paneForItem(first);
-    firstPane.splitRight({ copyActiveItem: false });
+    firstPane.splitRight();
     second = await lumine.workspace.open();
     first.setText("x = 1\nyyy = 2\n");
     second.setText("a = 3\nbbb = 4\n");
