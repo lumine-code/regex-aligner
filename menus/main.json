@@ -26,7 +26,9 @@
           "submenu": [
             {
               "label": "Align on Pattern…",
-              "command": "regex-aligner:toggle"
+              "command": "regex-aligner:toggle",
+              "group": "alignment",
+              "order": 20
             }
           ]
         }
