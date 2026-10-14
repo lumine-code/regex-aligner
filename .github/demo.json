@@ -1,23 +1,68 @@
 {
   "title": "regex-aligner",
-  "description": "Align selected key-value pairs on an equals sign.",
-  "recordedOn": "2026-10-13",
-  "sourceRevision": "990809a62b9a5b79894be2b95a3a8d450acc2858",
+  "description": "Key-value pairs before alignment.",
+  "recordedOn": "2026-10-14",
+  "sourceRevision": "6747a5e83e15fb7ab5cd7a40170bbf1937957a99",
+  "themeSourceRevision": "14a69683b0e3238e2bc128fbfae3866c1e4ee9c6",
   "mode": "normal",
   "fontSettings": "default",
-  "themeSourceRevision": "6564a9e21899b5541e9c8f8006f9be6d6d72e6ad",
+  "scenario": "demo.js",
+  "recipeHash": "c557eae39548c1b2c4c047d38c070625695ad6c366506efcc709fcc7262ab55b",
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "electron": "44.7.0",
+    "chrome": "152.0.7977.130",
+    "devicePixelRatio": 1,
+    "locale": "en-GB",
+    "fontFamily": "Fira Code, Menlo, DejaVu Sans Mono, Consolas, monospace",
+    "fontSize": 14,
+    "themes": ["one-day-syntax", "one-day-ui"]
+  },
+  "viewport": { "width": 1100, "height": 340 },
+  "cornerRadius": 10,
+  "sources": {
+    "editor": {
+      "revision": "385bd1b3ac2db600f1c7e077474d9da4d6deebc4",
+      "dirty": true,
+      "workingTreeHash": "0fa935626a1db13861a0b78ef5c3d890e0a6bff80b25da2fac6e9889910defe0"
+    },
+    "package": {
+      "revision": "6747a5e83e15fb7ab5cd7a40170bbf1937957a99",
+      "dirty": true,
+      "workingTreeHash": "bd28ecfb8424c31262477bd370f1b53a4319fdf66b33cc9aa14050fe4f1f120b"
+    },
+    "regex-aligner": {
+      "revision": "6747a5e83e15fb7ab5cd7a40170bbf1937957a99",
+      "dirty": true,
+      "workingTreeHash": "bd28ecfb8424c31262477bd370f1b53a4319fdf66b33cc9aa14050fe4f1f120b"
+    },
+    "one-theme": {
+      "revision": "14a69683b0e3238e2bc128fbfae3866c1e4ee9c6",
+      "dirty": true,
+      "workingTreeHash": "50ec2f83a6347dd8113870992ec4eb2be4014f3d9e12213c2f51b543f1eca793"
+    }
+  },
+  "fixtures": [
+    {
+      "file": "usage/processing.txt",
+      "sha256": "877d2ddcc6667e7ad408630f3f01968c50f09fffa4362ffb02f30466b6dadb18"
+    }
+  ],
   "images": [
     {
       "file": "demo.png",
       "label": "Key-value pairs before alignment.",
       "width": 1100,
-      "height": 340
+      "height": 340,
+      "sha256": "a9dfcedeffecd59cde773d1ad58fca8be08d1d7f704ef5bbfb11c589d9972067"
     },
     {
       "file": "demo-2.png",
       "label": "Columns aligned by Regex Aligner.",
       "width": 1100,
-      "height": 340
+      "height": 340,
+      "sha256": "16a071cff557425217f32bf650b3efb4f1c2620e79925a8ceb021fb42abf94ad"
     }
   ]
 }
