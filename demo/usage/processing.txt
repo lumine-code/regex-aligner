@@ -1,0 +1,4 @@
+name = Signal Lab
+version = 1.0.0
+language = Python
+window = 7
