@@ -4,6 +4,6 @@
   // so it would have taken alt-r whenever an editor had focus — which is most
   // of the time.
   "lumine-text-editor:not([mini])": {
-    "cmdorctrl-alt-r": "regex-aligner:toggle"
+    "cmdorctrl-k a": "regex-aligner:toggle"
   }
 }
