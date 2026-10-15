@@ -7,11 +7,11 @@
           "label": "Regex Aligner",
           "submenu": [
             {
-              "label": "Toggle",
+              "label": "Align on Pattern…",
               "command": "regex-aligner:toggle"
             },
             {
-              "label": "Simple",
+              "label": "Align at Cursors",
               "command": "regex-aligner:simple"
             }
           ]
