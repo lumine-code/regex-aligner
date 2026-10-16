@@ -24,7 +24,7 @@ Commands available in `lumine-text-editor:not([mini]):not([readonly])`:
 - `regex-aligner:toggle`: open dialog to get a regex expression as separator,
 - `regex-aligner:simple`: align multiple cursors to the rightmost one.
 
-Commands act on the editor that invoked them, using the active editor when invoked from the application menu or command palette. The regex dialog keeps that editor as its target until confirmation.
+Commands act on the editor that invoked them. The application menu and command palette preserve the editor focused before they opened, and the regex dialog keeps that editor as its target until confirmation. `regex-aligner:toggle` also closes the dialog from its own `.regex-dialog` scope.
 
 ## Contributing
 
