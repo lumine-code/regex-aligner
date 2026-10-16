@@ -5,5 +5,8 @@
   // of the time.
   "lumine-text-editor:not([mini]):not([readonly])": {
     "cmdorctrl-k a": "regex-aligner:toggle"
+  },
+  ".regex-dialog": {
+    "cmdorctrl-k a": "regex-aligner:toggle"
   }
 }

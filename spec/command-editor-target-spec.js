@@ -79,4 +79,14 @@ describe("Regex Aligner command editor targets", () => {
       0,
     );
   });
+  it("closes its own focused dialog through the same toggle and shortcut", () => {
+    lumine.commands.dispatch(second.element, "regex-aligner:toggle");
+    const target = main.dialog.miniEditor.element;
+    expect(lumine.commands.canDispatch(target, "regex-aligner:toggle")).toBe(true);
+    expect(
+      lumine.keymaps.findKeyBindings({ target, command: "regex-aligner:toggle" }).length,
+    ).toBeGreaterThan(0);
+    lumine.commands.dispatch(target, "regex-aligner:toggle");
+    expect(main.dialog.isVisible()).toBe(false);
+  });
 });
