@@ -1,9 +1,9 @@
 {
   "title": "regex-aligner",
   "description": "Key-value pairs before alignment.",
-  "recordedOn": "2026-10-14",
-  "sourceRevision": "6747a5e83e15fb7ab5cd7a40170bbf1937957a99",
-  "themeSourceRevision": "14a69683b0e3238e2bc128fbfae3866c1e4ee9c6",
+  "recordedOn": "2026-10-16",
+  "sourceRevision": "a6dc38f033199c1b3ea341b7975beff94613c594",
+  "themeSourceRevision": "828c35ac1816466699effa6f7cf7eedccc930ff9",
   "mode": "normal",
   "fontSettings": "default",
   "scenario": "demo.js",
@@ -11,8 +11,8 @@
   "environment": {
     "platform": "win32",
     "arch": "x64",
-    "electron": "44.7.0",
-    "chrome": "152.0.7977.130",
+    "electron": "44.7.1",
+    "chrome": "152.0.7977.149",
     "devicePixelRatio": 1,
     "locale": "en-GB",
     "fontFamily": "Fira Code, Menlo, DejaVu Sans Mono, Consolas, monospace",
@@ -21,26 +21,27 @@
   },
   "viewport": { "width": 1100, "height": 340 },
   "cornerRadius": 10,
+  "privacy": { "version": 1, "location": "neutral", "textChecked": true },
   "sources": {
     "editor": {
-      "revision": "385bd1b3ac2db600f1c7e077474d9da4d6deebc4",
-      "dirty": true,
-      "workingTreeHash": "0fa935626a1db13861a0b78ef5c3d890e0a6bff80b25da2fac6e9889910defe0"
+      "revision": "f8d8badf72a1a2e010c2c5d76306bade6c5fefd0",
+      "dirty": false,
+      "workingTreeHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
     },
     "package": {
-      "revision": "6747a5e83e15fb7ab5cd7a40170bbf1937957a99",
-      "dirty": true,
-      "workingTreeHash": "bd28ecfb8424c31262477bd370f1b53a4319fdf66b33cc9aa14050fe4f1f120b"
+      "revision": "a6dc38f033199c1b3ea341b7975beff94613c594",
+      "dirty": false,
+      "workingTreeHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
     },
     "regex-aligner": {
-      "revision": "6747a5e83e15fb7ab5cd7a40170bbf1937957a99",
-      "dirty": true,
-      "workingTreeHash": "bd28ecfb8424c31262477bd370f1b53a4319fdf66b33cc9aa14050fe4f1f120b"
+      "revision": "a6dc38f033199c1b3ea341b7975beff94613c594",
+      "dirty": false,
+      "workingTreeHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
     },
     "one-theme": {
-      "revision": "14a69683b0e3238e2bc128fbfae3866c1e4ee9c6",
-      "dirty": true,
-      "workingTreeHash": "50ec2f83a6347dd8113870992ec4eb2be4014f3d9e12213c2f51b543f1eca793"
+      "revision": "828c35ac1816466699effa6f7cf7eedccc930ff9",
+      "dirty": false,
+      "workingTreeHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
     }
   },
   "fixtures": [
@@ -55,14 +56,14 @@
       "label": "Key-value pairs before alignment.",
       "width": 1100,
       "height": 340,
-      "sha256": "a9dfcedeffecd59cde773d1ad58fca8be08d1d7f704ef5bbfb11c589d9972067"
+      "sha256": "d1e16f16e1b2937082dd591e1feb734577d5da2331683dd25d2ffc1c2c0f2b02"
     },
     {
       "file": "demo-2.png",
       "label": "Columns aligned by Regex Aligner.",
       "width": 1100,
       "height": 340,
-      "sha256": "16a071cff557425217f32bf650b3efb4f1c2620e79925a8ceb021fb42abf94ad"
+      "sha256": "38a51fb623305906334d976890d4be8057de82610abdbc675cf6cf011cafe54a"
     }
   ]
 }
