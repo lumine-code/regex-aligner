@@ -19,7 +19,7 @@ To install `regex-aligner` search for it in the Install pane of the Lumine setti
 
 ## Commands
 
-Commands available in `lumine-workspace`:
+Commands available in `lumine-text-editor:not([mini]):not([readonly])`:
 
 - `regex-aligner:toggle`: open dialog to get a regex expression as separator,
 - `regex-aligner:simple`: align multiple cursors to the rightmost one.

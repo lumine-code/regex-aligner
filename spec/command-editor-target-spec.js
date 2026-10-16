@@ -59,10 +59,13 @@ describe("Regex Aligner command editor targets", () => {
     expect(main.dialog.isVisible()).toBe(false);
   });
 
-  it("keeps the active editor as the workspace command fallback", () => {
+  it("does not redirect a workspace command to the active editor", () => {
+    expect(lumine.commands.canDispatch(lumine.workspace.getElement(), "regex-aligner:simple")).toBe(
+      false,
+    );
     lumine.commands.dispatch(lumine.views.getView(lumine.workspace), "regex-aligner:simple");
 
-    expect(first.getText()).toBe("x   = 1\nyyy = 2\n");
+    expect(first.getText()).toBe("x = 1\nyyy = 2\n");
     expect(second.getText()).toBe("a = 3\nbbb = 4\n");
   });
 });
