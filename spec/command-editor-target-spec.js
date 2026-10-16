@@ -68,4 +68,15 @@ describe("Regex Aligner command editor targets", () => {
     expect(first.getText()).toBe("x = 1\nyyy = 2\n");
     expect(second.getText()).toBe("a = 3\nbbb = 4\n");
   });
+  it("leaves readonly editors outside the command and shortcut scope", () => {
+    const target = first.getElement();
+    expect(
+      lumine.keymaps.findKeyBindings({ target, command: "regex-aligner:toggle" }).length,
+    ).toBeGreaterThan(0);
+    target.setAttribute("readonly", "");
+    expect(lumine.commands.canDispatch(target, "regex-aligner:toggle")).toBe(false);
+    expect(lumine.keymaps.findKeyBindings({ target, command: "regex-aligner:toggle" }).length).toBe(
+      0,
+    );
+  });
 });
