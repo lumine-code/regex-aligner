@@ -2,6 +2,7 @@ describe("Regex Aligner command editor targets", () => {
   let first, second, firstPane, main;
 
   beforeEach(async () => {
+    jasmine.useRealClock();
     for (const operation of ["openExternal", "openPath", "showItemInFolder", "openApplication"]) {
       if (!jasmine.isSpy(lumine.shell[operation])) {
         spyOn(lumine.shell, operation).and.returnValue(Promise.resolve(""));
@@ -44,7 +45,7 @@ describe("Regex Aligner command editor targets", () => {
     expect(second.getCursors().map((cursor) => cursor.getBufferColumn())).toEqual([4, 4]);
   });
 
-  it("captures the split editor that opens the regex dialog", () => {
+  it("captures the split editor that opens the regex dialog", async () => {
     second.setText("a,bb\nddd,e\n");
     second.setSelectedBufferRange([
       [0, 0],
@@ -53,6 +54,7 @@ describe("Regex Aligner command editor targets", () => {
     lumine.commands.dispatch(second.element, "regex-aligner:toggle");
     main.dialog.miniEditor.setText(",");
     lumine.commands.dispatch(main.dialog.miniEditor.element, "core:confirm");
+    await conditionPromise(() => !main.dialog.isVisible());
 
     expect(second.getText()).toBe("a   , bb\nddd , e\n");
     expect(first.getText()).toBe("x = 1\nyyy = 2\n");

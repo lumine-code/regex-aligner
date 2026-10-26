@@ -4,6 +4,10 @@ Align text using regular expressions or multiple cursors.
 
 Enter a pattern and text is aligned at matching positions.
 
+Alignment prepares changes against immutable text snapshots, yields during long work, and publishes all edits together as one undo step. Literal separators, including escaped literals and simple capture wrappers, support arbitrarily long rows without constructing a whole-row string. General regular expressions run in a cancellable worker with an 8 Mi UTF-16 unit input limit per row and a one-second execution budget per batch; unsupported rows produce an explicit error before any edit. Separator expressions themselves are limited to 65,536 UTF-16 units. Captures do not create extra columns, and zero-width separators retain native per-line matching semantics.
+
+Column widths use a bounded memory cache that spills metadata to an operation-owned temporary file when needed; the file is removed after completion, cancellation or failure. No columns are silently dropped. Padding shares immutable text blocks, original line endings are preserved, and edits change only the necessary whitespace gaps so markers inside retained cell text keep their geometry. Closing the dialog or changing its source or selections cancels pending preparation.
+
 ## Features
 
 - **Regex alignment**: align text at regex-matched separators.

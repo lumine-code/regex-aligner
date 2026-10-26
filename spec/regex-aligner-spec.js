@@ -2,6 +2,7 @@ describe("regex-aligner", () => {
   let workspaceElement, editor, editorElement, mainModule;
 
   beforeEach(async () => {
+    jasmine.useRealClock();
     workspaceElement = lumine.views.getView(lumine.workspace);
     jasmine.attachToDOM(workspaceElement);
     editor = await lumine.workspace.open();
@@ -15,7 +16,7 @@ describe("regex-aligner", () => {
   });
 
   describe("regex-aligner:simple", () => {
-    it("aligns multiple cursors to the rightmost one", () => {
+    it("aligns multiple cursors to the rightmost one", async () => {
       editor.setText("a = 1\nbbb = 2\ncc = 3\n");
       editor.setCursorBufferPosition([0, 2]);
       editor.addCursorAtBufferPosition([1, 4]);
@@ -35,7 +36,7 @@ describe("regex-aligner", () => {
       return mainModule.dialog;
     }
 
-    it("shows and hides the regex dialog", () => {
+    it("shows and hides the regex dialog", async () => {
       lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
       expect(getDialog().isVisible()).toBe(true);
       expect(getDialog().miniEditor.getGrammar().scopeName).toBe("text.plain");
@@ -44,7 +45,7 @@ describe("regex-aligner", () => {
       expect(getDialog().isVisible()).toBe(false);
     });
 
-    it("tabularizes the selection at the regex separator", () => {
+    it("tabularizes the selection at the regex separator", async () => {
       editor.setText("a,bb,c\nddd,e,ff\n");
       editor.setSelectedBufferRange([
         [0, 0],
@@ -54,13 +55,13 @@ describe("regex-aligner", () => {
       lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
       const dialog = getDialog();
       dialog.miniEditor.setText(",");
-      lumine.commands.dispatch(dialog.miniEditor.element, "core:confirm");
+      await dialog.confirm();
 
       expect(editor.getText()).toBe("a   , bb , c\nddd , e  , ff\n");
       expect(dialog.isVisible()).toBe(false);
     });
 
-    it("keeps the dialog open and reports invalid regular expressions", () => {
+    it("keeps the dialog open and reports invalid regular expressions", async () => {
       editor.setText("a,b\n");
       editor.setSelectedBufferRange([
         [0, 0],
@@ -70,13 +71,13 @@ describe("regex-aligner", () => {
       lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
       const dialog = getDialog();
       dialog.miniEditor.setText("([");
-      lumine.commands.dispatch(dialog.miniEditor.element, "core:confirm");
+      await dialog.confirm();
 
       expect(dialog.isVisible()).toBe(true);
       expect(dialog.errorMessage.textContent).toContain("Error:");
     });
 
-    it("does not duplicate separator capture groups", () => {
+    it("does not duplicate separator capture groups", async () => {
       editor.setText("a,bb,c\nddd,e,ff\n");
       editor.setSelectedBufferRange([
         [0, 0],
@@ -86,12 +87,12 @@ describe("regex-aligner", () => {
       lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
       const dialog = getDialog();
       dialog.miniEditor.setText("(,)");
-      lumine.commands.dispatch(dialog.miniEditor.element, "core:confirm");
+      await dialog.confirm();
 
       expect(editor.getText()).toBe("a   , bb , c\nddd , e  , ff\n");
     });
 
-    it("keeps empty columns and their separators", () => {
+    it("keeps empty columns and their separators", async () => {
       editor.setText(",a,,b\n,c,,d\n");
       editor.setSelectedBufferRange([
         [0, 0],
@@ -101,12 +102,12 @@ describe("regex-aligner", () => {
       lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
       const dialog = getDialog();
       dialog.miniEditor.setText(",");
-      lumine.commands.dispatch(dialog.miniEditor.element, "core:confirm");
+      await dialog.confirm();
 
       expect(editor.getText()).toBe(" , a ,  , b\n , c ,  , d\n");
     });
 
-    it("does not add columns to lines with fewer separators", () => {
+    it("does not add columns to lines with fewer separators", async () => {
       editor.setText("a,b,c\nd,e\n");
       editor.setSelectedBufferRange([
         [0, 0],
@@ -116,12 +117,12 @@ describe("regex-aligner", () => {
       lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
       const dialog = getDialog();
       dialog.miniEditor.setText("(,)|(=)");
-      lumine.commands.dispatch(dialog.miniEditor.element, "core:confirm");
+      await dialog.confirm();
 
       expect(editor.getText()).toBe("a , b , c\nd , e\n");
     });
 
-    it("aligns zero-width separators without losing the adjacent text", () => {
+    it("aligns zero-width separators without losing the adjacent text", async () => {
       editor.setText("a,bb\nddd,e\n");
       editor.setSelectedBufferRange([
         [0, 0],
@@ -131,7 +132,7 @@ describe("regex-aligner", () => {
       lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
       const dialog = getDialog();
       dialog.miniEditor.setText("^|(?=,)|$");
-      lumine.commands.dispatch(dialog.miniEditor.element, "core:confirm");
+      await dialog.confirm();
 
       expect(editor.getText()).toBe("a   ,bb\nddd ,e\n");
       expect(dialog.isVisible()).toBe(false);
