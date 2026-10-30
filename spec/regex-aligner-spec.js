@@ -74,7 +74,32 @@ describe("regex-aligner", () => {
       await dialog.confirm();
 
       expect(dialog.isVisible()).toBe(true);
-      expect(dialog.errorMessage.textContent).toContain("Error:");
+      expect(dialog.inputDialog.getStatus().type).toBe("error");
+      expect(dialog.inputDialog.getStatus().message).toContain("regular expression");
+    });
+
+    it("preserves an oversized draft across reopen without reading or aligning it", async () => {
+      lumine.commands.dispatch(editorElement, "regex-aligner:toggle");
+      const dialog = getDialog();
+      dialog.miniEditor.setText("x".repeat(65537));
+      const oversizedRead = jasmine.createSpy("oversized read");
+      const read = dialog.miniEditor.getText.bind(dialog.miniEditor);
+      spyOn(dialog.miniEditor, "getText").and.callFake(() => {
+        if (dialog.miniEditor.getBuffer().getLength() > 65536) {
+          oversizedRead();
+          throw new Error("Oversized input read");
+        }
+        return read();
+      });
+      const align = spyOn(dialog, "tabularize");
+      await dialog.confirm();
+      dialog.hide();
+      dialog.showForEditor(editor);
+      expect(oversizedRead).not.toHaveBeenCalled();
+      expect(align).not.toHaveBeenCalled();
+      expect(dialog.inputDialog.getQueryStatus().available).toBe(false);
+      expect(dialog.miniEditor.getBuffer().getLength()).toBe(65537);
+      expect(dialog.isVisible()).toBe(true);
     });
 
     it("does not duplicate separator capture groups", async () => {
