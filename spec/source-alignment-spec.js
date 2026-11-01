@@ -47,6 +47,87 @@ describe("Source alignment", () => {
   });
   afterEach(() => editor.destroy());
 
+  it("aligns through intermediate tracker revisions and preserves one undo step", async () => {
+    const original = "a,b\nlong,c\n";
+    editor.setText(original);
+    editor.selectAll();
+    const buffer = editor.getBuffer();
+    let calls = 0;
+    const layer = buffer.addMarkerLayer({
+      trackRanges(entries) {
+        calls++;
+        return entries.map(({ id }) => ({ id, range: buffer.getRange() }));
+      },
+    });
+    layer.markRange(buffer.getRange(), { invalidate: "never" });
+    const selection = editor.getSelectedBufferRange();
+    buffer.clearUndoStack();
+    await align(editor, /,/g);
+    expect(editor.getText()).toBe("a    , b\nlong , c\n");
+    expect(calls).toBeGreaterThan(1);
+    expect(editor.getSelectedBufferRange()).toEqual(selection);
+    editor.undo();
+    expect(editor.getText()).toBe(original);
+    expect(editor.getSelectedBufferRange()).toEqual(selection);
+    expect(buffer.undo()).toBe(false);
+  });
+
+  it("preserves later observer edits when restoring an aligned selection", async () => {
+    editor.setText("a,b\nlong,c\n");
+    editor.selectAll();
+    const buffer = editor.getBuffer();
+    const layer = buffer.addMarkerLayer({
+      trackRanges(entries) {
+        return entries.map(({ id }) => ({ id, range: buffer.getRange() }));
+      },
+    });
+    layer.markRange(buffer.getRange(), { invalidate: "never" });
+    let changed = false;
+    const subscription = buffer.onDidChangeText(() => {
+      if (changed) return;
+      changed = true;
+      buffer.insert([0, 0], "new\n");
+    });
+    try {
+      await align(editor, /,/g);
+      expect(editor.getText()).toBe("new\na    , b\nlong , c\n");
+      expect(editor.getSelectedBufferRange()).toEqual([
+        [0, 0],
+        [3, 0],
+      ]);
+    } finally {
+      subscription.dispose();
+    }
+  });
+
+  for (const rows of [1, 129]) {
+    it(`keeps a cursor moved by an observer after aligning ${rows + 1} cursors`, async () => {
+      editor.setText("a\n".repeat(rows) + "long");
+      editor.setCursorBufferPosition([0, 1]);
+      for (let row = 1; row < rows; row++) editor.addCursorAtBufferPosition([row, 1]);
+      editor.addCursorAtBufferPosition([rows, 4]);
+      const buffer = editor.getBuffer();
+      let calls = 0;
+      const layer = buffer.addMarkerLayer({
+        trackRanges(entries) {
+          calls++;
+          return entries.map(({ id }) => ({ id, range: buffer.getRange() }));
+        },
+      });
+      layer.markRange(buffer.getRange(), { invalidate: "never" });
+      const subscription = buffer.onDidChangeText(() => {
+        editor.setCursorBufferPosition([0, 0]);
+      });
+      try {
+        await main.simple({ target: editor.element });
+        expect(calls).toBe(rows);
+        expect(editor.getCursorBufferPosition()).toEqual([0, 0]);
+      } finally {
+        subscription.dispose();
+      }
+    });
+  }
+
   it("matches native per-line separator, trim, capture and zero-width semantics", async () => {
     const values = [
       "a,bb,c\nddd,e,ff\n",
